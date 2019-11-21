@@ -62,23 +62,9 @@ function Navbar() {
                         Logout
                         </Link>
                  </li>
-
-
                 </ul>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
         </nav>
     );
 }
+export default Navbar;
