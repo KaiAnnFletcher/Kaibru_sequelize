@@ -4,16 +4,16 @@ import "./style.css";
 
 function Navbar() {
     return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <Link className="navbar-brand" to="/">
             KAIBRU    
             </Link>
 
             <div>
-                <ul className="navbar-nav">
+                <ul className="nav navbar-nav navbar-center">
                     <li className="nav-item1">
                         <Link
-                            to="/"
+                            to="/about"
                             className={
                                 window.location.pathname === "/" || window.location.pathname === "/about"
                                 ? "nav-link active"
@@ -62,6 +62,19 @@ function Navbar() {
                         Logout
                         </Link>
                  </li>
+
+                 <li className="nav-item5">
+                        <Link
+                        to ="/signup"
+                        className={
+                            window.location.pathname === "/" || window.location.pathname === "/signup"
+                            ? "nav-link active"
+                            :"nav-link" 
+                        }
+                        >
+                            Signup
+                        </Link>
+                  </li>
                 </ul>
             </div>
         </nav>
