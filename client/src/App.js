@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Jumbotron from "./components/Jumbotron";
+import Wrapper from "./components/Wrapper";
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -8,8 +10,12 @@ function App() {
   return (
     <Router>
     <div>
+    <Wrapper>
     <Navbar />
-
+    <Jumbotron />
+    
+    
+    </Wrapper>
     </div>
     </Router>
   )
