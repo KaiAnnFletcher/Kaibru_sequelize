@@ -14,7 +14,7 @@ function Home() {
                     <Navbar />
                     <Jumbotron>
                     <h1>KAIBRU</h1>
-                    <h2>Your One-stop Shop for Sustainably-sourced Products and Services</h2>
+                    <h2>Your One-stop Hub for Sustainably-sourced Products and Services</h2>
                     </Jumbotron>
                 </Col>
                 </Row>
@@ -23,8 +23,8 @@ function Home() {
                 <Col size="md-12">
                 {/* Placeholder for when the user signs in - user model needs to be created first with sequelize */}
                 <div text-align="center">
-                <h5>Kaibru is the place you can come to if you would like to find products that are sustainable and safe! 
-                    Happy browsing and thank you for remebering our environment!
+                <h5>Kaibru is the place you can come to if you would like to find products or services that are sustainable and safe! 
+                    Happy browsing and thank you for remembering our environment!
                 </h5>
                 </div>
                 </Col>

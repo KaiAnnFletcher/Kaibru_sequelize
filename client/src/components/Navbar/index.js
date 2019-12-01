@@ -75,6 +75,19 @@ function Navbar() {
                             Signup
                         </Link>
                   </li>
+
+                  <li className="nav-item6">
+                        <Link
+                        to ="/browse"
+                        className={
+                            window.location.pathname === "/" || window.location.pathname === "/browse"
+                            ? "nav-link active"
+                            :"nav-link" 
+                        }
+                        >
+                        Start Browsing!
+                        </Link>
+                  </li>
                 </ul>
             </div>
         </nav>
