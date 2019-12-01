@@ -10,7 +10,7 @@ function Navbar() {
             </Link>
 
             <div>
-                <ul className="nav navbar-nav navbar-center">
+                <ul className="nav navbar-nav navbar-center">   
                     <li className="nav-item1">
                         <Link
                             to="/about"
