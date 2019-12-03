@@ -6,7 +6,7 @@ function Footer() {
   return (
     
     <footer className="footer">
-      <span>KAIBRU 2019</span>
+      <span>KAIBRU 2019 &copy;</span>
     </footer>
   
   );

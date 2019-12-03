@@ -19,7 +19,7 @@ function About() {
 
             <Row>
                 <Col size = "md-12">
-                <h1>Making a Difference!</h1>
+                <h1 style={{textAlign: "center"}}>Making a Difference!</h1>
                 </Col>
             </Row>
             

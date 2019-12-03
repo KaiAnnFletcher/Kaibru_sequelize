@@ -19,11 +19,11 @@ function Home() {
                 </Col>
                 </Row>
 
-                <Row>
+                <Row fluid>
                 <Col size="md-12">
                 {/* Placeholder for when the user signs in - user model needs to be created first with sequelize */}
-                <div text-align="center">
-                <h5>Kaibru is the place you can come to if you would like to find products or services that are sustainable and safe! 
+                <div>
+                <h5 style={{textAlign: "center"}}>Kaibru is the place you can come to if you would like to find products or services that are sustainable and safe! 
                     Happy browsing and thank you for remembering our environment!
                 </h5>
                 </div>

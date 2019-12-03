@@ -19,7 +19,7 @@ function About() {
 
             <Row>
                 <Col size = "md-12">
-                <h1>Who Are We?</h1>
+                <h1 style={{textAlign: "center"}}>Who Are We?</h1>
                 </Col>
             </Row>
             
