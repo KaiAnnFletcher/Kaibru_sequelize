@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require('cors');
 bodyParser = require('body-parser');
 
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -23,6 +24,7 @@ app.use(routes);
 // //Connect to the Mongo DB 
 // mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/kaibru");
 
+var syncOptions = { force: false };
 // If running a test, set syncOptions.force to true
 // clearing the `testdb`
 if (process.env.NODE_ENV === "test") {
