@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Mission from "./pages/Mission";
 import Signup from "./pages/Signup";
+import Browse from "./pages/Browse";
 // import Navbar from "./components/Navbar";
 // import Jumbotron from "./components/Jumbotron";
 import Wrapper from "./components/Wrapper";
@@ -23,6 +24,7 @@ function App() {
     <Route exact path="/logout" component={Logout} />
     <Route exact path="/mission" component={Mission} />
     <Route exact path="/signup" component={Signup} />
+    <Route exact path="/browse" component={Browse} />
     </Wrapper>
     </div>
     </Router>
