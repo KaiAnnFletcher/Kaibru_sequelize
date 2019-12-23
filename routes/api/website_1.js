@@ -1,0 +1,78 @@
+var express = require("express");
+var logger = require("morgan");
+
+//**figure sequelize connection to db**
+
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
+
+var axios = require("axios");
+var cheerio = require("cheerio");
+
+//requiring this website's models
+var db = require("./models");
+
+var PORT = 3000;
+
+//Initialize Express
+var app = express();
+
+//Configure the morgan middleware
+//The morgan logger will be used for logging requests 
+//using the dev format
+//Concise output colored by response status for development use. 
+//The status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+
+app.use(logger("dev"));
+
+//The request body must be parsed as JSON
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+//Direct express to static folder
+app.use(express.static("public"));
+
+//**Need to figure code to connect to sequelize database**
+
+//Now to configure the routes
+
+app.get("/scrape", function(req, res) {
+//Grab the html body with axios    
+axios.get("https://greenheartshop.org/").then(function(response) {
+//Load to cheerio and save to $ selector
+var $ = cheerio.load(response.data);
+//Now we need to grab the title reference for each article
+$(".product-grid-item").each(function(i, element) {
+console.log(element)
+//save empty result object
+var result = {};
+
+//thumbnail
+    
+result.thumbnail = $(this)
+.children("product-item-thumbnail")
+.attr("href");
+
+//details
+result.detail= $(this)
+.children("product-item-details")
+.text();
+
+
+//Create a new article  using the "result" object built via scraping
+db.Article.create(result)
+    .then(function(dbArticle) {
+     //View the result in the console
+     console.log(dbArticle);
+    })
+    .catch(function(err) {
+    //If there is an error, log it also
+    // console.log(err);    
+    });
+});
+
+//Send client message
+res.send("Scrape Complete");
+});
+
+});
