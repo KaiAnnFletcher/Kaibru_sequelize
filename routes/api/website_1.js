@@ -1,7 +1,10 @@
 var express = require("express");
+var router = require("express").Router();
 var logger = require("morgan");
+var bodyParser = require('body-parser');
 
 //**figure sequelize connection to db**
+//sequelize connection is done in server.js
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -25,22 +28,28 @@ var app = express();
 //The status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 
 app.use(logger("dev"));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 //The request body must be parsed as JSON
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 //Direct express to static folder
 app.use(express.static("public"));
 
-//**Need to figure code to connect to sequelize database**
+//Connect to sequelize DB via the config folder
+require("../../config");
 
 //Now to configure the routes
 
-app.get("/scrape", function(req, res) {
+router.get("/scrape", function(req, res) {
+//instead of simple res.render, user router.get  
+
 //Grab the html body with axios    
 axios.get("https://greenheartshop.org/").then(function(response) {
 //Load to cheerio and save to $ selector
+console.log("Scraped greenheartshop mainpage");
 var $ = cheerio.load(response.data);
+let output = [];
+let promises = [];
 //Now we need to grab the title reference for each article
 $(".product-grid-item").each(function(i, element) {
 console.log(element)
@@ -57,22 +66,24 @@ result.thumbnail = $(this)
 result.detail= $(this)
 .children("product-item-details")
 .text();
-
-
-//Create a new article  using the "result" object built via scraping
-db.Article.create(result)
-    .then(function(dbArticle) {
-     //View the result in the console
-     console.log(dbArticle);
-    })
-    .catch(function(err) {
-    //If there is an error, log it also
-    // console.log(err);    
-    });
 });
+//Create a new article  using the "result" object built via scraping
+// db.Article.create(result)
+//     .then(function(dbArticle) {
+//      //View the result in the console
+//      console.log(dbArticle);
+//     })
+//     .catch(function(err) {
+//     //If there is an error, log it also
+//     // console.log(err);    
+//     });
+// });
 
 //Send client message
 res.send("Scrape Complete");
-});
 
 });
+})
+//To do
+//router.route
+//Overall review required, but better to put together controllers and api for now; otherwise cannot test scrape

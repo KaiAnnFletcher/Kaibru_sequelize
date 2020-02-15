@@ -2,12 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require('cors');
 bodyParser = require('body-parser');
-
 //const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
-
+const path = require('path');
 //Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -9,7 +9,7 @@ var Items_1 = require("../models/website_1.js");
 // Routes
 // =============================================================
 module.exports = function(app) {
-  // Search for Specific Character (or all characters) then provides JSON
+  // Search for Specific item (or all items) then provide JSON
   app.get("/api/:items_1?", function(req, res) {
     if (req.params.item_1) {
       // Display the JSON for ONLY items_1.
@@ -27,7 +27,7 @@ module.exports = function(app) {
       });
     }
   });
-//Not needed, since our user will not be updating the database
+//Not needed, since our users will not be updating the database
 //   // If a user sends data to add a new character...
 //   app.post("/api/new", function(req, res) {
 //     // Take the request...

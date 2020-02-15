@@ -6,7 +6,7 @@ var Sequelize = require("sequelize");
 // sequelize (lowercase) references our connection to the DB.
 var sequelize = require("../config/connection.js");
 
-// Creates a "Character" model that matches up with DB
+// Creates a "Items_1" model that matches up with DB
 var Items_1 = sequelize.define("items_1", {
   // the routeName gets saved as a string
   resultDetails: Sequelize.STRING,
@@ -29,5 +29,5 @@ var Items_1 = sequelize.define("items_1", {
 // Syncs with DB
 Items_1.sync();
 
-// Makes the Character Model available for other files (will also create a table)
+// Makes the Items_1 Model available for other files (will also create a table)
 module.exports = Items_1;
