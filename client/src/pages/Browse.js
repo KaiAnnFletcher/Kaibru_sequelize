@@ -42,3 +42,5 @@ const onClick = (e) => {
     )
 }
 export default Browse;
+
+//On-click of the thumbnail, render the SerachResult container that contains the serach form and the results list - this is key 
