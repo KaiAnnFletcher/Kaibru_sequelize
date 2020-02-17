@@ -46,7 +46,7 @@ router.get("/scrape", function(req, res) {
 //Grab the html body with axios    
 axios.get("https://greenheartshop.org/").then(function(response) {
 //Load to cheerio and save to $ selector
-console.log("Scraped greenheartshop mainpage");
+console.log("Scraped all greenheartshop mainpage");
 var $ = cheerio.load(response.data);
 let output = [];
 let promises = [];
@@ -67,6 +67,10 @@ result.detail= $(this)
 .children("product-item-details")
 .text();
 });
+
+//link
+// Add link
+
 //Create a new article  using the "result" object built via scraping
 // db.Article.create(result)
 //     .then(function(dbArticle) {
@@ -78,12 +82,45 @@ result.detail= $(this)
 //     // console.log(err);    
 //     });
 // });
+Promise.all(promises).then((data) => {
+res.json(data)
 
 //Send client message
 res.send("Scrape Complete");
-
 });
-})
+});
 //To do
 //router.route
 //Overall review required, but better to put together controllers and api for now; otherwise cannot test scrape
+
+//Now we need to define a scrape for a specifc search that the user might enter
+//route to get instructions for a specific item.
+
+router.get("/search/:search", function (req, res) {
+    axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
+        console.log("***** scraped specific page *****"); 
+        var $ = cheerio.load(response.data);
+        let output = [];
+        let promises = [];
+
+        $(".product-grid-item").each(function(i, element) {
+            //Save empty result object
+            var result = {};
+
+            //thumbnail
+    
+            result.thumbnail = $(this)
+            .children("product-item-thumbnail")
+            .attr("href");
+
+            //details
+            result.detail= $(this)
+            .children("product-item-details")
+            .text();
+});
+Promise.all(promises).then((data) => {
+res.json(data)
+})
+    })
+})
+});
