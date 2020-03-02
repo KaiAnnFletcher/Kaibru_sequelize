@@ -1,5 +1,6 @@
 var express = require("express");
 var router = require("express").Router();
+var website_1Controller = require("../../controllers");
 var logger = require("morgan");
 var bodyParser = require('body-parser');
 
@@ -14,9 +15,7 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 //requiring this website's models
-var db = require("./models");
-
-var PORT = 3000;
+var Items_1 = require("../../models/website_1");
 
 //Initialize Express
 var app = express();
@@ -36,7 +35,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 //Connect to sequelize DB via the config folder
-require("../../config");
+require("../../config/connection");
 
 //Now to configure the routes
 
@@ -44,14 +43,14 @@ router.get("/scrape", function(req, res) {
 //instead of simple res.render, user router.get  
 
 //Grab the html body with axios    
-axios.get("https://greenheartshop.org/").then(function(response) {
+axios.get("https://greenheartshop.org").then(function(res) {
 //Load to cheerio and save to $ selector
 console.log("Scraped all greenheartshop mainpage");
-var $ = cheerio.load(response.data);
+var $ = cheerio.load(res.data);
 let output = [];
 let promises = [];
 //Now we need to grab the title reference for each article
-$(".product-grid-item").each(function(i, element) {
+$("article").each(function(i, element) {
 console.log(element)
 //save empty result object
 var result = {};
@@ -59,12 +58,17 @@ var result = {};
 //thumbnail
     
 result.thumbnail = $(this)
-.children("product-item-thumbnail")
+.children("figure.product-item-thumbnail")
+.children("a")
 .attr("href");
 
 //details
 result.detail= $(this)
-.children("product-item-details")
+.children("div.product-item-details")
+.children("div.product-item-brand")
+.children("h5.product-item-title")
+.children("div.product-price-line")
+.children("span.price-value")
 .text();
 });
 
@@ -82,6 +86,11 @@ result.detail= $(this)
 //     // console.log(err);    
 //     });
 // });
+if (result.thumbnail !== []) {
+    const promise = Items_1
+    .findOneandUpdate(result, result, {upsert:true, new: true})
+    promises.push(promise);
+}
 Promise.all(promises).then((data) => {
 res.json(data)
 
@@ -97,30 +106,50 @@ res.send("Scrape Complete");
 //route to get instructions for a specific item.
 
 router.get("/search/:search", function (req, res) {
-    axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
+    axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (res) {
         console.log("***** scraped specific page *****"); 
-        var $ = cheerio.load(response.data);
+        var $ = cheerio.load(res.data);
         let output = [];
         let promises = [];
 
-        $(".product-grid-item").each(function(i, element) {
+        $("article").each(function(i, element) {
             //Save empty result object
             var result = {};
 
             //thumbnail
     
             result.thumbnail = $(this)
-            .children("product-item-thumbnail")
+            .children("figure.product-item-thumbnail")
+            .children("a")
             .attr("href");
 
             //details
             result.detail= $(this)
-            .children("product-item-details")
+            .children("div.product-item-details")
+            .children("div.product-item-brand")
+            .children("h5.product-item-title")
+            .children("div.product-price-line")
+            .children("span.price-value")
             .text();
 });
+if (result.thumbnail !== []) {
+    const promise = Items_1
+    .findOneandUpdate(result, result, {upsert:true, new: true})
+    promises.push(promise);
+}
+
 Promise.all(promises).then((data) => {
 res.json(data)
 })
     })
 })
 });
+
+router.get("/", (req, res, next) => {
+    website_1Controller.findAll().then( (data) => {
+        res.status(200).send({ items: data, msg:"Items returned successfully" })
+    })
+    .catch( err => next(err))
+    });
+
+module.exports = router;

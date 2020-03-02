@@ -3,12 +3,24 @@ import axios from "axios";
 // import cheerio from "cheerio";
 
 export default {
-    scrapeAll: function () {
-        return axios.get("api/website/scrape");
+    scrapeAll: function (website_1Data) {
+        return axios.get("api/website/scrape", website_1Data)
+        //             .then(function (response){
+        //                     console.log(response)
+        // })
+        //             .catch(function(error) {
+        //                 console.log(error);
+        //             });
     },
 
     scrapeBySearch: function(searchString){
         var parsedString = searchString.replace(/ /g, "%20");
-        return axios.get("api/website/seacrh/" + parsedString);
+        return axios.get("api/website/search/" + parsedString)
+                    .then(function(response) {
+                        console.log(response)
+                    })
+                    .catch(function(error) {
+                        console.log(error)
+                    });
     }
-}
+};

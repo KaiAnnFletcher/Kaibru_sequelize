@@ -1,3 +1,4 @@
+'use strict';
 // Dependencies
 // =============================================================
 
@@ -11,7 +12,7 @@ var Items_1 = sequelize.define("items_1", {
   // the routeName gets saved as a string
   resultDetails: Sequelize.STRING,
   // the name of the character (a string)
-  resultThumbnail: Sequelize.OBJECT,
+  resultThumbnail: Sequelize.BLOB,
   // the character's role (a string)
   //role: Sequelize.STRING,
   // the character's age (a string)

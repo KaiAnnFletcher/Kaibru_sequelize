@@ -21,8 +21,11 @@ class Browse extends Component {
 
   searchWebsite_1 = () => {
     API.scrapeAll()
-      .then(res => this.setState({ results: res.data.data }))
-      .catch(err => console.log(err));
+       .then(res => {
+      console.log(res)
+       this.setState({ results: res.data.data })
+      .catch(err =>{ console.log(err) });
+      })
   };
 
   handleInputChange = event => {
@@ -71,6 +74,11 @@ class Browse extends Component {
     );
 }
 }
+
+Browse.defaultProps = {
+  results: [],
+}
+
 export default Browse;
 
 //On-click of the thumbnail, render the SerachResult container that contains the searh form and the results list - this is key 
