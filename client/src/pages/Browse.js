@@ -24,7 +24,12 @@ class Browse extends Component {
        .then(res => {
       console.log(res)
        this.setState({ results: res.data.data })
-      .catch(err =>{ console.log(err) });
+       console.log("I am here")
+       console.log( { results: res.data.data } )
+       console.log(res.data.data)
+      //.catch(err =>{ console.log(err)
+      
+      //});
       })
   };
 
@@ -76,6 +81,7 @@ class Browse extends Component {
 }
 
 Browse.defaultProps = {
+  search: "",
   results: [],
 }
 

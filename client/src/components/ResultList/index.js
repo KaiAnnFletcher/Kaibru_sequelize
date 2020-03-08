@@ -13,4 +13,9 @@ function ResultList(props) {
   );
 }
 
+
+ResultList.defaultProps = {
+result: []
+}
+
 export default ResultList;

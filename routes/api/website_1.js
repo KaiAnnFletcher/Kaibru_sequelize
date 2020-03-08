@@ -43,33 +43,40 @@ router.get("/scrape", function(req, res) {
 //instead of simple res.render, user router.get  
 
 //Grab the html body with axios    
-axios.get("https://greenheartshop.org").then(function(res) {
+axios.get("https://greenheartshop.org").then(function(response) {
 //Load to cheerio and save to $ selector
-console.log("Scraped all greenheartshop mainpage");
-var $ = cheerio.load(res.data);
-let output = [];
-let promises = [];
+    console.log("Scraped all greenheartshop mainpage");
+    var $ = cheerio.load(response.data);
+
+    let output = [];
+    let promises = [];
 //Now we need to grab the title reference for each article
 $("article").each(function(i, element) {
 console.log(element)
 //save empty result object
-var result = {};
+var result = [];
 
 //thumbnail
     
-result.thumbnail = $(this)
+result.thumbnail = $(element)
+.children("article.product-grid-item.product-block")
 .children("figure.product-item-thumbnail")
 .children("a")
-.attr("href");
+.attr("href")
+.children("div.lazy-image")
+.children("img.lazy-image")
+console.log($(element))
 
 //details
-result.detail= $(this)
+result.detail= $(element)
 .children("div.product-item-details")
 .children("div.product-item-brand")
 .children("h5.product-item-title")
+.children("a")
 .children("div.product-price-line")
 .children("span.price-value")
 .text();
+console.log($(element))
 });
 
 //link
@@ -88,7 +95,7 @@ result.detail= $(this)
 // });
 if (result.thumbnail !== []) {
     const promise = Items_1
-    .findOneandUpdate(result, result, {upsert:true, new: true})
+    .findOrCreate(result, result, {upsert:true, new: true})
     promises.push(promise);
 }
 Promise.all(promises).then((data) => {
@@ -106,9 +113,9 @@ res.send("Scrape Complete");
 //route to get instructions for a specific item.
 
 router.get("/search/:search", function (req, res) {
-    axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (res) {
+    axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
         console.log("***** scraped specific page *****"); 
-        var $ = cheerio.load(res.data);
+        var $ = cheerio.load(response.data);
         let output = [];
         let promises = [];
 
@@ -134,12 +141,14 @@ router.get("/search/:search", function (req, res) {
 });
 if (result.thumbnail !== []) {
     const promise = Items_1
-    .findOneandUpdate(result, result, {upsert:true, new: true})
+    .findOrCreate(result, result, {upsert:true, new: true})
     promises.push(promise);
+    console.log(promise)
 }
 
 Promise.all(promises).then((data) => {
 res.json(data)
+console.log(data)
 })
     })
 })

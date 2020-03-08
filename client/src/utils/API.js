@@ -16,11 +16,11 @@ export default {
     scrapeBySearch: function(searchString){
         var parsedString = searchString.replace(/ /g, "%20");
         return axios.get("api/website/search/" + parsedString)
-                    .then(function(response) {
-                        console.log(response)
-                    })
-                    .catch(function(error) {
-                        console.log(error)
-                    });
+                    // .then(function(response) {
+                    //     console.log(response)
+                    // })
+                    // .catch(function(error) {
+                    //     console.log(error)
+                    // });
     }
 };

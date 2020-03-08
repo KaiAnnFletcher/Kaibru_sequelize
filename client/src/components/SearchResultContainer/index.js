@@ -10,7 +10,7 @@ class SearchResultContainer extends Component {
   };
   //I future will need to construct OR conditions when multiple websites come into the picture
   // When the website thumbnail is clicked, scrape all from that website's main page
-  Click() {
+  handleClick() {
     this.searchWebsite_1();
   }
 
@@ -46,6 +46,11 @@ class SearchResultContainer extends Component {
       </div>
     );
   }
+}
+
+SearchResultContainer.defaultProps = {
+  search: "",
+  results: []
 }
 
 export default SearchResultContainer;
