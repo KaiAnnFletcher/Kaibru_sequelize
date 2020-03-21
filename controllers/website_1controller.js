@@ -4,7 +4,7 @@
 
 // Dependencies
 // =============================================================
-var db_1 = require("../models");
+var db = require("../models");
 
 // Routes
 // =============================================================
@@ -13,17 +13,17 @@ module.exports = function(app) {
   app.get("/api/:items_1?", function(req, res) {
       // Display the JSON for ONLY items_1.
       // (Note how we're using the ORM here to run our searches)
-      db_1.Items_1.findOne({
+      db.Items_1.findOne({
         where: {
           resultThumbnail: req.params.items_1
         }
-      }).then(function(dbItems_1) {
-        return res.json(dbItems_1);
+      }).then(function(Items_1) {
+        return res.json(Items_1);
       });
   //
   app.get("/api/items_1", function(req, res) {
-        db_1.Items_1.findAll({}).then(function(dbItems_1) {
-        return res.json(dbItems_1);
+        db.Items_1.findAll({}).then(function(Items_1) {
+        return res.json(Items_1);
       });
     });
 //Not needed, since our users will not be updating the database

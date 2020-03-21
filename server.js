@@ -1,7 +1,9 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
+var logger = require("morgan");
 //const mongoose = require("mongoose");
 const db = require("./models")
 const routes = require("./routes");
@@ -17,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static("client/build"));
 }
 app.use(cors());
-
+app.use(logger("dev"));
 //Add routes, both API and view
 app.use(routes);
   

@@ -14,7 +14,8 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "start:dev-server": "nodemon --ignore 'client/*' --exec babel-node server.js"
+    "start:dev-server": "nodemon --ignore 'client/*' --exec babel-node server.js",
+    "scrape": "node routes/api/scrape.js"
   },
   "repository": {
     "type": "git",

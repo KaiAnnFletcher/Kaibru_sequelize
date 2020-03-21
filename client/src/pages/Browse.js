@@ -12,21 +12,24 @@ class Browse extends Component {
     results: [],
 };
 
-//I future will need to construct OR conditions when multiple websites come into the picture
+
+
+//In future will need to construct OR conditions when multiple websites come into the picture
 // When the website thumbnail is clicked, scrape all from that website's main page
   
   handleClick() {
     this.searchWebsite_1();
   }
 
+
   searchWebsite_1 = () => {
     API.scrapeAll()
        .then(res => {
-      console.log(res)
-       this.setState({ results: res.data.data })
-       console.log("I am here")
-       console.log( { results: res.data.data } )
+      console.log(res);
+      this.setState({ results: res.data.data })
+       console.log("After this.setState")
        console.log(res.data.data)
+       console.log(res.data)
       //.catch(err =>{ console.log(err)
       
       //});

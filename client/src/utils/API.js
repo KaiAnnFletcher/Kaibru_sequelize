@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default {
     scrapeAll: function (website_1Data) {
-        return axios.get("api/website/scrape", website_1Data)
+        return axios.get("api/website_1/scrape", website_1Data)
         //             .then(function (response){
         //                     console.log(response)
         // })
@@ -15,7 +15,7 @@ export default {
 
     scrapeBySearch: function(searchString){
         var parsedString = searchString.replace(/ /g, "%20");
-        return axios.get("api/website/search/" + parsedString)
+        return axios.get("api/website_1/search/" + parsedString)
                     // .then(function(response) {
                     //     console.log(response)
                     // })
