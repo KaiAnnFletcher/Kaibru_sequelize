@@ -1,11 +1,6 @@
 //var express = require("express");
 var router = require("express").Router();
 var website_1Controller = require("../../controllers/website_1controller");
-//var logger = require("morgan");
-//var bodyParser = require('body-parser');
-
-//**figure sequelize connection to db**
-//sequelize connection is done in server.js
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -15,167 +10,186 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 //requiring this website's models
-var Items_1 = require("../../models/website_1");
-
-
-//Configure the morgan middleware
-//The morgan logger will be used for logging requests 
-//using the dev format
-//Concise output colored by response status for development use. 
-//The status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-
-//app.use(logger("dev"));
-// app.use(bodyParser.urlencoded({ extended: false }));
-// //The request body must be parsed as JSON
-// app.use(express.urlencoded({extended: false}));
-// app.use(express.json());
-// //Direct express to static folder
-// app.use(express.static("public"));
-
-// //Connect to sequelize DB via the config folder
-// require("../../config/connection");
+var Items_1 = require( "../../models/website_1");
 
 //Now to configure the routes
-
 router.get("/scrape", function(req, res) {
 //instead of simple res.render, user router.get  
-console.log("scrape");
+console.log("scraping started...");
 //Grab the html body with axios    
 axios.get("https://greenheartshop.org").then(function(response) {
 //Load to cheerio and save to $ selector
-    console.log("Scraped all greenheartshop mainpage");
+    console.log("Scraping all greenheartshop mainpage...");
     var $ = cheerio.load(response.data);
-    console.log(response.data);
-    let output = [];
-    let promises = [];
+    var output = [];
+    var promises = [];
+
 //Now we need to grab the title reference for each article
 $("article").each(function(i, element) {
-console.log(element)
-//save empty result object
 
+//save empty result object
 var result = {};
 
 //thumbnail
 result.thumbnail = $(this)
-.children("article.product-grid-item.product-block")
+//.children("article.product-grid-item.product-block").html()
 .children("figure.product-item-thumbnail")
 .children("a")
 .attr("href")
-.children("div.lazy-image")
-.children("img.lazy-image")
-console.log($(this))
+//console.log("result thumbnail")
+//console.log(result)
+//console.log(result.thumbnail)
 
+var result = {}
 //details
 result.detail= $(this)
+//.children("product-item-mask").html()
 .children("div.product-item-details")
-.children("div.product-item-brand")
-.children("h5.product-item-title")
-.children("a")
-.children("div.product-price-line")
-.children("span.price-value")
-.text();
-console.log($(this))
-});
+// .children("div.product-item-brand")
+// .children("h5.product-item-title")
+// .children("a")
+// .children("div.product-item-price")
+//.children("product-price-line")
+//.children("price-value")
+.text()
+//result.detail = result.detail.trim();
+//console.log("result detail")
+//console.log(result)
+//console.log(result.detail)
 
-//link
-// Add link
-
-//Create a new article  using the "result" object built via scraping
-// db.Article.create(result)
-//     .then(function(dbArticle) {
-//      //View the result in the console
-//      console.log(dbArticle);
-//     })
-//     .catch(function(err) {
-//     //If there is an error, log it also
-//     // console.log(err);    
+// function saveInDatabase() {
+    
+//     //prepare the date
+//     var dataToStore = Items_1.build({
+//         resultThumbnail: result.thumbnail,
+//         resultDetails: result.detail,
+    
 //     });
+    
+
+//     //insert data in database
+//     dataToStore.save().
+//         then(
+//             console.log("data saved")
+//         ).catch(
+//             console.log("error saving data: ", err)
+//         );
+// }
+
+// console.log("Starting the database update...")
+// if (result.thumbnail !== [] && result.detail !== "") {
+//     var promise = saveInDatabase({
+//         resultThumbnail: result.thumbnail,
+//         resultDetails: result.detail
+//     })
+// promises.push(promise);
+// console.log("promise push complete")
+// }
+
+// Promise.all(promises).then(function(data)  {
+// res.json(data)
+
+// //Send client message
+// res.send("Scrape Complete");
 // });
-if (result.thumbnail !== [] && result.detail !== ""){
-    const promise = Items_1
-    Items_1.sequelize.transaction(function(t) {
-    return Items_1.findOrCreate({
-        where: {
-            thumbnail: result.thumbnail,
-            detail: result.detail
-        },
-        transaction: t
-    })
+// });
+// });
+// //To do
+// //router.route
+// //Overall review required, but better to put together controllers and api for now; otherwise cannot test scrape
+
+// //Now we need to define a scrape for a specifc search that the user might enter
+// //route to get instructions for a specific item.
 })
-promises.push(promise);
-console.log(promise)
-}
-
-Promise.all(promises).then((data) => {
-res.json(data)
-
-//Send client message
-res.send("Scrape Complete");
+})
 });
-});
-//To do
-//router.route
-//Overall review required, but better to put together controllers and api for now; otherwise cannot test scrape
-
-//Now we need to define a scrape for a specifc search that the user might enter
-//route to get instructions for a specific item.
 
 router.get("/search/:search", function (req, res) {
     axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
-        console.log("***** scraped specific page *****"); 
+        console.log("***** scraping specific page *****"); 
         var $ = cheerio.load(response.data);
-
-        let promises = [];
+        var output = [];
+        var promises = [];
 
         $("article").each(function(i, element) {
             //Save empty result object
             var result = {};
 
             //thumbnail
-    
             result.thumbnail = $(this)
             .children("figure.product-item-thumbnail")
             .children("a")
             .attr("href");
+            //console.log(result.thumbnail)
 
             //details
             result.detail= $(this)
             .children("div.product-item-details")
-            .children("div.product-item-brand")
-            .children("h5.product-item-title")
-            .children("div.product-price-line")
-            .children("span.price-value")
+            // .children("div.product-item-brand")
+            // .children("h5.product-item-title")
+            // .children("div.product-price-line")
+            // .children("span.price-value")
             .text();
-});
-if (result.thumbnail !== [] && result.detail !== ""){
-    const promise = Items_1
-    Items_1.sequelize.transaction(function(t) {
-    return Items_1.findOrCreate({
-        where: {
-            thumbnail: result.thumbnail,
-            detail: result.detail
-        },
-        transaction: t
-    })
-})
-promises.push(promise);
-console.log(promise)
+//             console.log(result.detail)
+
+function saveInDatabase() {
+    //prepare the date
+    var dataToStore = Items_1.build({
+        resultThummbnail: result.thumbnail,
+        resultDetails: result.detail
+    });
+
+    //insert data in database
+    dataToStore.save().
+        then(
+            console.log("data saved")
+        ).catch(
+            console.log("error saving data: ", err)
+        );
 }
 
-Promise.all(promises).then((data) => {
-res.json(data)
-console.log(data)
-})
+console.log("starting database update for specific search")
+if (result.thumbnail !== [] && result.detail !== ""){
+    var promise = saveInDatabase({
+        resultThumbnail: result.thumbnail,
+        resultDetails: result.detail
     })
+promises.push(promise);
+console.log("promise push complete")
+}
+
+Promise.all(promises).then(function(data) {
+res.json(data)
+
+//Send client message
+res.send("Scrape Complete");
+})
 })
 });
+})
 
-router.get("/", (req, res, next) => {
-    website_1Controller.findAll().then( (data) => {
+// router.post('/scrapeall', (req, res) => {
+//     scrapeAll().then((result) => {
+//         result.map(result  => {
+//             create({
+//                 resultThumbnail: result.thumbnail,
+//                 resultDetails: result.details
+//             })
+//         });
+//         res.json({message: "Scraping successfully saved to database"})
+//     })
+// });
+
+router.get("/", function(req, res, next) {
+    website_1Controller.findAll().then(function(data) {
         console.log("status 200");
         res.status(200).send({ items: data, msg:"Items returned successfully" })
     })
-    .catch( err => next(err))
+    .catch(function(err) {
+        next(err)
+    })
     });
+
+
 
 module.exports = router;

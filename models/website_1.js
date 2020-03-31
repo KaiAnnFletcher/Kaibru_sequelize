@@ -26,8 +26,9 @@ module.exports = function(sequelize, DataTypes) {
   // if you don't want that, set the following
   freezeTableName: true
 });
+
 return Items_1;
-// Syncs with DB
+//Syncs with DB
 //Items_1.sync();
 
 // Makes the Items_1 Model available for other files (will also create a table)

@@ -1,5 +1,5 @@
-const router = require("express").Router();
-const website_1Routes = require("./website_1");
+var router = require("express").Router();
+var website_1Routes = require("./website_1");
 //const userRoutes = require("./user");
 
 //Website_1 routes

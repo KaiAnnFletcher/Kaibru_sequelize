@@ -1,15 +1,15 @@
 require("dotenv").config();
 
-const express = require("express");
-const cors = require('cors');
-const bodyParser = require('body-parser');
+var express = require("express");
+var cors = require('cors');
+var bodyParser = require('body-parser');
 var logger = require("morgan");
 //const mongoose = require("mongoose");
-const db = require("./models")
-const routes = require("./routes");
-const app = express();
-const PORT = process.env.PORT || 3001;
-const path = require('path');
+var db = require("./models")
+var routes = require("./routes");
+var app = express();
+var PORT = process.env.PORT || 3001;
+var path = require('path');
 //Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchForm from "../SearchForm";
 import ResultList from "../ResultList";
+import { Col, Row, Container } from "../Grid";
 import API from "../../utils/API";
 
 class SearchResultContainer extends Component {
@@ -36,16 +37,40 @@ class SearchResultContainer extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
+        <Row>
+          <Col size="md-12">
         <SearchForm
           search={this.state.search}
           handleFormSubmit={this.handleFormSubmit}
           handleInputChange={this.handleInputChange}
         />
-        <ResultList results={this.state.results} />
-      </div>
-    );
-  }
+        </Col>
+        <Col size="md-12">
+        {this.state.results.length ? (
+        <ResultList> 
+          {this.state.results.map(results => (
+          <img className = "StyleThumbnail" alt="thumbnail" src={results.thumbnail}></img>
+          ))}
+        </ResultList>
+        ) : (
+          <p>No results to display at this time</p>
+        )}
+        </Col>
+        <Col size="md-12">
+        {this.state.results.length ? (
+        <ResultList>
+          {this.state.results.map(results => (
+          <strong>{results.details}</strong>
+          ))}
+        </ResultList>
+         ) : (
+          <p></p>
+        )}
+        </Col>
+        </Row>
+      </Container>
+    )};
 }
 
 SearchResultContainer.defaultProps = {
