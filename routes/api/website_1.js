@@ -11,7 +11,7 @@ var cheerio = require("cheerio");
 
 //requiring this website's models
 var Items_1 = require( "../../models/website_1");
-
+ 
 //Now to configure the routes
 router.get("/scrape", function(req, res) {
 //instead of simple res.render, user router.get  
@@ -57,53 +57,21 @@ result.detail= $(this)
 //console.log(result)
 //console.log(result.detail)
 
-// function saveInDatabase() {
-    
-//     //prepare the date
-//     var dataToStore = Items_1.build({
-//         resultThumbnail: result.thumbnail,
-//         resultDetails: result.detail,
-    
-//     });
-    
-
-//     //insert data in database
-//     dataToStore.save().
-//         then(
-//             console.log("data saved")
-//         ).catch(
-//             console.log("error saving data: ", err)
-//         );
-// }
-
-// console.log("Starting the database update...")
-// if (result.thumbnail !== [] && result.detail !== "") {
-//     var promise = saveInDatabase({
-//         resultThumbnail: result.thumbnail,
-//         resultDetails: result.detail
-//     })
-// promises.push(promise);
-// console.log("promise push complete")
-// }
-
-// Promise.all(promises).then(function(data)  {
-// res.json(data)
-
-// //Send client message
-// res.send("Scrape Complete");
-// });
-// });
-// });
-// //To do
-// //router.route
-// //Overall review required, but better to put together controllers and api for now; otherwise cannot test scrape
-
-// //Now we need to define a scrape for a specifc search that the user might enter
-// //route to get instructions for a specific item.
-})
-})
+if(result.thumbnail !== {} && result.details !== "") {
+    console.log("Creating database items...")
+    router.post("/", (req, res, next) => {
+        Items_1.create({
+            resultThumbnail: result.thumbnail, 
+            resultDetails: result.detail
+        }).then( res => {
+            res.status(200).send({msg: "Results Created"})
+        }).catch(err => next(err))
+    });
+}
 });
 
+
+//Now we need to define a scrape for a specifc search that the user might enter
 router.get("/search/:search", function (req, res) {
     axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
         console.log("***** scraping specific page *****"); 
@@ -120,7 +88,7 @@ router.get("/search/:search", function (req, res) {
             .children("figure.product-item-thumbnail")
             .children("a")
             .attr("href");
-            //console.log(result.thumbnail)
+            console.log(result.thumbnail)
 
             //details
             result.detail= $(this)
@@ -130,56 +98,27 @@ router.get("/search/:search", function (req, res) {
             // .children("div.product-price-line")
             // .children("span.price-value")
             .text();
-//             console.log(result.detail)
-
-function saveInDatabase() {
-    //prepare the date
-    var dataToStore = Items_1.build({
-        resultThummbnail: result.thumbnail,
-        resultDetails: result.detail
-    });
-
-    //insert data in database
-    dataToStore.save().
-        then(
-            console.log("data saved")
-        ).catch(
-            console.log("error saving data: ", err)
-        );
-}
-
-console.log("starting database update for specific search")
-if (result.thumbnail !== [] && result.detail !== ""){
-    var promise = saveInDatabase({
-        resultThumbnail: result.thumbnail,
-        resultDetails: result.detail
-    })
-promises.push(promise);
-console.log("promise push complete")
-}
-
-Promise.all(promises).then(function(data) {
-res.json(data)
-
-//Send client message
-res.send("Scrape Complete");
+            console.log(result.detail)
 })
 })
 });
-})
+//terminal prints result as undefined because a specific search has not been launched yet - we are just scraping the main page
+if(result.thumbnail !== {} && result.details !== ""){
+    
+console.log("Creating database items...")
+router.post("/", (req, res, next) => {
+    Items_1.create({
+        resultThumbnail: result.thumbnail, 
+        resultDetails: result.detail
+    }).then( res => {
+        res.status(200).send({msg: "Results Created"})
+    }).catch(err => next(err))
+});
+}
+});
 
-// router.post('/scrapeall', (req, res) => {
-//     scrapeAll().then((result) => {
-//         result.map(result  => {
-//             create({
-//                 resultThumbnail: result.thumbnail,
-//                 resultDetails: result.details
-//             })
-//         });
-//         res.json({message: "Scraping successfully saved to database"})
-//     })
-// });
 
+console.log("Rendering database items...")
 router.get("/", function(req, res, next) {
     website_1Controller.findAll().then(function(data) {
         console.log("status 200");
@@ -189,7 +128,6 @@ router.get("/", function(req, res, next) {
         next(err)
     })
     });
-
-
+})
 
 module.exports = router;

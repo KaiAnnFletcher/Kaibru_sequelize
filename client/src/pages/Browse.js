@@ -64,7 +64,7 @@ class Browse extends Component {
                 </Col>
                 </Row>
                 
-                <Row fluid>
+                <Row>
                 <Col size="md-12">
                 {/* Placeholder for when the user signs in - user model needs to be created first with sequelize */}
                 <div>
