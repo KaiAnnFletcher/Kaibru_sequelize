@@ -22,6 +22,10 @@ app.use(cors());
 app.use(logger("dev"));
 //Add routes, both API and view
 app.use(routes);
+console.log("routes:",routes);
+//replaced with below:
+//app.use(app.router);
+//routes.initialize(app);
   
 // //Connect to the Mongo DB 
 // mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/kaibru");

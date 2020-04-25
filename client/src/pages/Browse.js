@@ -7,34 +7,35 @@ import SearchResultContainer from "../components/SearchResultContainer";
 import API from "../utils/API";
 
 class Browse extends Component {
+
     state = {
     search: "",
-    results: [],
+    results: [],    
 };
-
 
 
 //In future will need to construct OR conditions when multiple websites come into the picture
 // When the website thumbnail is clicked, scrape all from that website's main page
-  
-  handleClick() {
-    this.searchWebsite_1();
-  }
 
+handleClick() {
+this.searchWebsite_1();
+//console.log("this.searchWebsite_1: ", this.searchWebsite_1())
+};
 
-  searchWebsite_1 = () => {
-    API.scrapeAll()
-       .then(res => {
-      console.log(res);
-      this.setState({ results: res.data.data })
-       console.log("After this.setState")
-       console.log(res.data.data)
-       console.log(res.data)
-      //.catch(err =>{ console.log(err)
-      
-      //});
-      })
-  };
+searchWebsite_1() {
+  API.scrapeAll()
+     .then(res => {
+    this.setState({ results: res.data.data })
+     console.log("After this.setState")
+     console.log("results: res.data ", {results: res.data})
+     console.log("results: res.data.data ", {results: res.data.data})
+     //console.log("results: res.data.data", {results: res.data.data})
+     //console.log(res.data)
+    // .catch(err =>{ console.log(err)
+    
+    //  });
+    })
+};
 
   handleInputChange = event => {
     const name = event.target.name;

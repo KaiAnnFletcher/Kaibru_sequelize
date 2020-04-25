@@ -3,10 +3,10 @@ import axios from "axios";
 // import cheerio from "cheerio";
 
 export default {
-    scrapeAll: function (website_1Data) {
-        return axios.get("api/website_1/scrape", website_1Data)
+    scrapeAll: function() {
+        return axios.get("/api/website_1/scrape")
         //             .then(function (response){
-        //                     console.log(response)
+        //             console.log(response)
         // })
         //             .catch(function(error) {
         //                 console.log(error);
@@ -15,7 +15,7 @@ export default {
 
     scrapeBySearch: function(searchString){
         var parsedString = searchString.replace(/ /g, "%20");
-        return axios.get("api/website_1/search/" + parsedString)
+        return axios.get("/api/website_1/scrape:id/" + parsedString)
                     // .then(function(response) {
                     //     console.log(response)
                     // })

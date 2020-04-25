@@ -5,12 +5,13 @@ import { Col, Row, Container } from "../Grid";
 import API from "../../utils/API";
 
 class SearchResultContainer extends Component {
-  state = {
+    state = {
     search: "",
     results: []
   };
+
   //I future will need to construct OR conditions when multiple websites come into the picture
-  // When the website thumbnail is clicked, scrape all from that website's main page
+  //When the website thumbnail is clicked, scrape all from that website's main page
   handleClick() {
     this.searchWebsite_1();
   }

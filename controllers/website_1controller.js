@@ -6,48 +6,31 @@
 // =============================================================
 var db = require("../models");
 
-// Routes
-// =============================================================
-module.exports = function(app) {
-  // Search for Specific item (or all items) then provide JSON
-  app.get("/api/:items_1?", function(req, res) {
-      // Display the JSON for ONLY items_1.
-      // (Note how we're using the ORM here to run our searches)
-      db.Items_1.findOne({
-        where: {
-          resultThumbnail: req.params.items_1
-        }
-      }).then(function(Items_1) {
-        return res.json(Items_1);
-      });
-    });
-  app.get("/api/items_1", function(req, res) {
-        db.Items_1.findAll({}).then(function(Items_1) {
-        return res.json(Items_1);
-      });
-    });
+//display results for mainpage scrape
+exports.items_1_create = function(req, res) {
 
-// For whe the scrape updates the database...
-   app.post("/api/new", function(req, res) {
-//     Take the request...
-     var items_1 = req.body;
+      db.Items_1.findOneAndUpdate(req.body, req.body, {upsert: true, new: true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err))
+      console.log("findOneAndUpdate complete")
+ },
 
-//     // Create a routeName
+ exports.items_1_list = function(req,res) {
+   db.Items_1.findAll({})
+ },
 
-//     // Using a RegEx Pattern to remove spaces from character.name
-//     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-     //var routeName = items_1.name.replace(/\s+/g, "").toLowerCase();
+ exports.items_1_specific = function(req,res) {
+   db.Items_1.findById(req.params.search)
+ },
 
-//     // Then add the items_1 to the database using sequelize
-       db.Items_1.create({
-          resultThumbnail: items_1.resultThumbnail,
-          resultDetails: items_1.resultDetails
-       });
-//       name: character.name,
-//       role: character.role,
-//       age: character.age
-//       forcePoints: character.forcePoints
-//     });
-     res.status(204).end();
-  });
+function(err, results) {
+  if (err) { return next(err); } //Error in API usage.
+  if (results.result.thumbnail==={} && results.result.detail==="") {//No Results.
+    var err = new Error('Results not found');
+    err.status = 404;
+    return next(err)
+  }
+  //Successful, so render
+  res.render("click_results", { title: 'Click Results', resultThumbnail: result.thumbnail, resultDetails: result.detail });
+
 }

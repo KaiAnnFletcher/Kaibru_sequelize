@@ -1,6 +1,10 @@
 //var express = require("express");
 var router = require("express").Router();
-var website_1Controller = require("../../controllers/website_1controller");
+require("../../controllers/website_1controller");
+//requiring this website's models
+var Items_1 = require("../../models");
+require("./website_1_db");
+require("./website_1_router");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -9,9 +13,7 @@ var website_1Controller = require("../../controllers/website_1controller");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-//requiring this website's models
-var Items_1 = require( "../../models/website_1");
- 
+//mainscrape = function()  {
 //Now to configure the routes
 router.get("/scrape", function(req, res) {
 //instead of simple res.render, user router.get  
@@ -38,7 +40,7 @@ result.thumbnail = $(this)
 .attr("href")
 //console.log("result thumbnail")
 //console.log(result)
-//console.log(result.thumbnail)
+console.log(result.thumbnail)
 
 var result = {}
 //details
@@ -55,24 +57,51 @@ result.detail= $(this)
 //result.detail = result.detail.trim();
 //console.log("result detail")
 //console.log(result)
-//console.log(result.detail)
+console.log(result.detail)
 
-if(result.thumbnail !== {} && result.details !== "") {
-    console.log("Creating database items...")
-    router.post("/", (req, res, next) => {
-        Items_1.create({
-            resultThumbnail: result.thumbnail, 
-            resultDetails: result.detail
-        }).then( res => {
-            res.status(200).send({msg: "Results Created"})
-        }).catch(err => next(err))
-    });
+//Capture the scraped data and save to database
+console.log("Capturing Scrape...")
+if(result.detail !== '') {
+    var thumbnailResult = result.thumbnail;
+    var detailsResult = result.detail;
+    var promise = Items_1;
+    saveToDatabase(thumbnailResult, detailsResult)
+    console.log("saveToDatabase");
+    promises.push(promise);
 }
+Promise.all(promises).then((data) => {
+    res.json(data);
 });
+//saveToDatabase();
+
+// if (result.thumbnail !== {} && result.detail !== "") {
+//     var promise = Items_1
+//     // .items_1_create({
+//     //     resultThumbnail: result.thumbnail,
+//     //     resultDetails: result.detail  
+//     //   })
+//     promises.push(promise)
+//     // .then(dbModel => output.push(dbModel));
+//     Promise.all(promises).then((data) => {
+//       res.json(data)
+//     })
+//   }
 
 
+});
+});
+//Now to CREATE the results using controller file
+// console.log("creating items in the database now...")
+// router.post('/scrape', website_1Controller.items_1_create);
+//Now to display the results
+// console.log("Items now being displayed...")
+// router.get('/scrape/display', website_1Controller.items_1_list)
+});
+//}
+
+//specificScrape = function() {
 //Now we need to define a scrape for a specifc search that the user might enter
-router.get("/search/:search", function (req, res) {
+router.get("/scrape/:id", function (req, res) {
     axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
         console.log("***** scraping specific page *****"); 
         var $ = cheerio.load(response.data);
@@ -99,35 +128,53 @@ router.get("/search/:search", function (req, res) {
             // .children("span.price-value")
             .text();
             console.log(result.detail)
-})
-})
-});
-//terminal prints result as undefined because a specific search has not been launched yet - we are just scraping the main page
-if(result.thumbnail !== {} && result.details !== ""){
-    
-console.log("Creating database items...")
-router.post("/", (req, res, next) => {
-    Items_1.create({
-        resultThumbnail: result.thumbnail, 
-        resultDetails: result.detail
-    }).then( res => {
-        res.status(200).send({msg: "Results Created"})
-    }).catch(err => next(err))
-});
+
+//Capture the scraped data and save to database
+console.log("Capturing Scrape data...")
+if(result.detail !== '') {
+    var thumbnailResult = result.thumbnail;
+    var detailsResult = result.detail;
+    var promise = Items_1
+    .saveToDatabase(thumbnailResult, detailsResult)
+    console.log("saveToDatabase");
+    promises.push(promise);
 }
+Promise.all(promises).then((data) => {
+    res.json(data);
 });
 
+            //Call function that saves to db
+            //saveToDatabase()
+            //routes()
+            // if (result.thumbnail !== {} && result.detail !== "") {
+            //     var promise = Items_1
+            //     // .items_1_create({
+            //     //     resultThumbnail: result.thumbnail,
+            //     //     resultDetails: result.detail  
+            //     //   })
+            //     promises.push(promise)
+            //     // .then(dbModel => output.push(dbModel));
+            //     Promise.all(promises).then((data) => {
+            //       res.json(data)
+            //     })
+            //   }
+            
+});
+});
 
-console.log("Rendering database items...")
-router.get("/", function(req, res, next) {
-    website_1Controller.findAll().then(function(data) {
-        console.log("status 200");
-        res.status(200).send({ items: data, msg:"Items returned successfully" })
-    })
-    .catch(function(err) {
-        next(err)
-    })
-    });
-})
+//Now to CREATE the results using controller file
+// console.log("creating items in the database now...")
+// router.post('scrape/specfic', website_1Controller.items_1_create);
 
+//Now to display the results
+// console.log("Items now being displayed...")
+// router.get('scrape/specific/dosplay', website_1Controller.items_1_specific);
+});
+//}
+
+routing();
 module.exports = router;
+//module.exports = mainscrape;
+//module.exports = specificScrape;
+
+
