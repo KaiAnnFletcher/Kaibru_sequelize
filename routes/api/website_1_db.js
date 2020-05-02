@@ -6,13 +6,14 @@ var Items_1 = require( "../../models");
 
 saveToDatabase = function(thumbnailResult, detailsResult) {
     //prepare the data
-    var dataToStore = Items_1.Items_1.build({
+    var dataToStore = 
+    Items_1.Items_1.build({
         resultDetails: detailsResult,
         resultThumbnail: thumbnailResult
     });
     console.log(dataToStore)
     //insert data to the database
-    dataToStore.save().// We will not sue this part for now
+    dataToStore.save().
         then(() => {
             console.log("Data successfully saved");
         }).catch(err => {

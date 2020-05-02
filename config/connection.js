@@ -13,7 +13,7 @@ var sequelize = new Sequelize("kaibru", "root", "root", {
   pool: {
     max: 5,
     min: 0,
-    idle: 10000
+    idle: 50000
   }
 });
 

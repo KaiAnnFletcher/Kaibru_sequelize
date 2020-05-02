@@ -1,11 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Container, Row, Col } from "../components/Grid"
 
-function About() {
-    return (
+class About extends Component {
+    render() {
+        return(
         <div>
         <Container fluid>
             <Row>
@@ -41,6 +42,7 @@ function About() {
         </div>
         
     )
+}
 }
 
 export default About;

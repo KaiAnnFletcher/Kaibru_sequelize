@@ -3,14 +3,16 @@ import Jumbotron from "../components/Jumbotron";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Container, Row, Col } from "../components/Grid";
-import SearchResultContainer from "../components/SearchResultContainer";
+import ResultList from "../components/ResultList";
+import SearchForm from "../components/SearchForm";
+//import SearchResultContainer from "../components/SearchResultContainer";
 import API from "../utils/API";
 
 class Browse extends Component {
 
     state = {
     search: "",
-    results: [],    
+    data: [],    
 };
 
 
@@ -22,13 +24,13 @@ this.searchWebsite_1();
 //console.log("this.searchWebsite_1: ", this.searchWebsite_1())
 };
 
-searchWebsite_1() {
-  API.scrapeAll()
-     .then(res => {
-    this.setState({ results: res.data.data })
+async searchWebsite_1() {
+     API.scrapeAll()
+     .then( data => {
+     this.setState({ data: data.data })
      console.log("After this.setState")
-     console.log("results: res.data ", {results: res.data})
-     console.log("results: res.data.data ", {results: res.data.data})
+     console.log("results: res.data ", {data: data})
+     console.log("results: res.data.data ", {data: data.data})
      //console.log("results: res.data.data", {results: res.data.data})
      //console.log(res.data)
     // .catch(err =>{ console.log(err)
@@ -82,7 +84,37 @@ searchWebsite_1() {
                 </Col>
                 </Row>
                 
-                <SearchResultContainer/>
+                <Col size="md-12">
+        <SearchForm
+          search={this.state.search}
+          handleFormSubmit={this.handleFormSubmit}
+          handleInputChange={this.handleInputChange}
+        />
+        </Col>
+        <Col size="md-12">
+        {this.state.data.length ? (
+        <ResultList> 
+          {this.state.data.map(data => (
+          <img className = "StyleThumbnail" alt="thumbnail" src={data.resultThumbnail}></img>
+          ))}
+        </ResultList>
+        ) : (
+          <p>No results to display at this time</p>
+        )}
+        </Col>
+        <Col size="md-12">
+        {this.state.data.length ? (
+        <ResultList>
+          {this.state.data.map(data => (
+          <strong>{data.resultDetails}</strong>
+          ))}
+        </ResultList>
+        
+         ) : (
+          <p></p>
+        )}
+        </Col>
+                {/* <SearchResultContainer /> */}
                 <Footer />
                 </Container>
         </div>
@@ -90,10 +122,10 @@ searchWebsite_1() {
 }
 }
 
-Browse.defaultProps = {
-  search: "",
-  results: [],
-}
+// Browse.defaultProps = {
+//   search: "",
+//   data: [],
+// }
 
 export default Browse;
 

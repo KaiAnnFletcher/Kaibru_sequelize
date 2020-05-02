@@ -1,12 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Container, Row, Col } from "../components/Grid";
 
-function Home() {
+class Home extends Component {
 
-    return (
+    render() {
+        return(
         <div>
             <Container fluid>
                 <Row>
@@ -32,8 +33,8 @@ function Home() {
                 <Footer />
             </Container>
         </div>
-
     )
+}
 }
 
 export default Home;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -13,7 +13,8 @@ import Wrapper from "./components/Wrapper";
 // import logo from './logo.svg';
 // import './App.css';
 
-function App() {
+class App extends Component {
+  render() {
   return (
     <Router>
     <div>
@@ -28,8 +29,13 @@ function App() {
     </Wrapper>
     </div>
     </Router>
-  )
-  // return (
+  ) 
+}
+}
+
+export default App;
+
+// return (
   //   <div className="App">
   //     <header className="App-header">
   //       <img src={logo} className="App-logo" alt="logo" />
@@ -47,6 +53,3 @@ function App() {
   //     </header>
   //   </div>
   // );
-}
-
-export default App;

@@ -1,10 +1,10 @@
 //var express = require("express");
 var router = require("express").Router();
-require("../../controllers/website_1controller");
+var website_1Controller = require("../../controllers")
 //requiring this website's models
 var Items_1 = require("../../models");
 require("./website_1_db");
-require("./website_1_router");
+//require("./website_1_router");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -15,7 +15,7 @@ var cheerio = require("cheerio");
 
 //mainscrape = function()  {
 //Now to configure the routes
-router.get("/scrape", function(req, res) {
+router.get("/scrape", function(req, res, next) {
 //instead of simple res.render, user router.get  
 console.log("scraping started...");
 //Grab the html body with axios    
@@ -96,12 +96,23 @@ Promise.all(promises).then((data) => {
 //Now to display the results
 // console.log("Items now being displayed...")
 // router.get('/scrape/display', website_1Controller.items_1_list)
+//console.log("Routing to the page...")
+//routing();
+next()
 });
-//}
+router.get('/scrape', website_1Controller.findAll)
+// router.get('/scrape', (req, res, next) => {
+//     console.log("Routing...")
+//         website_1Controller.findAll()
+//         .then((data) => {
+//          console.log(data)
+//          res.status(200).send({ data: data})
+//          }).catch(err => next(err))
+//     });
 
 //specificScrape = function() {
 //Now we need to define a scrape for a specifc search that the user might enter
-router.get("/scrape/:id", function (req, res) {
+router.get("/scrape/:id", function (req, res, next) {
     axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
         console.log("***** scraping specific page *****"); 
         var $ = cheerio.load(response.data);
@@ -161,7 +172,8 @@ Promise.all(promises).then((data) => {
             
 });
 });
-
+//console.log("Routing to the page...")
+//routing();
 //Now to CREATE the results using controller file
 // console.log("creating items in the database now...")
 // router.post('scrape/specfic', website_1Controller.items_1_create);
@@ -169,12 +181,29 @@ Promise.all(promises).then((data) => {
 //Now to display the results
 // console.log("Items now being displayed...")
 // router.get('scrape/specific/dosplay', website_1Controller.items_1_specific);
+next()
 });
 //}
 
-routing();
+// router.get('/browse', (req, res, next) => {
+// console.log("Routing...")
+//     website_1Controller.items_1_list
+//      .then((data) => {
+//      res.status(200).send({ items_1: data, msg: "items_1 retrieved"})
+//      }).catch(err => next(err))
+// });
+
+
+
+router.get('/scrape:id', (req, res, next) => {
+    console.log("Routing...")
+    website_1Controller.findById()
+     .then((search) => {
+     search ? res.status(200).send({ singleItems_1: search }) : res.status(200).send({ errMsg: "Search does not exist" 
+     }).catch(err => next(err))
+    });
+});
+
 module.exports = router;
-//module.exports = mainscrape;
-//module.exports = specificScrape;
 
 
