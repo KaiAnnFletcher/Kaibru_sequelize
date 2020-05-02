@@ -3,12 +3,10 @@ import Jumbotron from "../components/Jumbotron";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Container, Row, Col } from "../components/Grid";
-import { List, ListItem } from "../components/List";
+import ResultList from "../components/ResultList";
 import SearchForm from "../components/SearchForm";
-import API from "../utils/API";
-//import ResultList from "../components/ResultList";
 //import SearchResultContainer from "../components/SearchResultContainer";
-
+import API from "../utils/API";
 
 class Browse extends Component {
 
@@ -102,27 +100,37 @@ async searchWebsite_1() {
 
                 <Row>
                 <Col size="md-12">
-
                 {this.state.data.length ? (
-                    <List>
-                    {this.state.data.map(data => (
-                    <ListItem key={data.data}>
-                    <Container>
-                    <img className ="StyleThumbnail" alt="thumbnail" src={data.resultThumbnail} ></img>
-                    <p>{data.resultDetails}</p>
-                    </Container>
-                    </ ListItem>
-                    ))}
-                    </List>
-                    ) : (
-                    <p>No Results to display at this time. Click an icon or search for an item to get started!</p>
-                    )}
+                <ResultList> 
+                  {this.state.data.map(data => (
+                  <img className = "StyleThumbnail" alt="thumbnail" src={data.resultThumbnail}></img>
+                  ))}
+                </ResultList>
+                ) : (
+                  <p>No results to display at this time</p>
+                )}
+                </Col>
+                <Col size="md-12">
+                {this.state.data.length ? (
+                <ResultList>
+                  {this.state.data.map(data => (
+                  <strong>{data.resultDetails}</strong>
+                  ))}
+                </ResultList>
+                
+                ) : (
+                  <p></p>
+                )}
                 </Col>
                 </Row>
+                {/* <SearchResultContainer /> */}
+
+                
                 <Footer />
-</Container>
-</div>
-)};
+                </Container>
+        </div>
+    );
+}
 }
 
 export default Browse;
