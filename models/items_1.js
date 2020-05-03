@@ -23,17 +23,9 @@
 // Creates a "Items_1" model that matches up with DB
  module.exports = function(sequelize, DataTypes) {
   var Items_1 = sequelize.define("Items_1", {
-  // the routeName gets saved as a string
   resultDetails: {type: DataTypes.STRING},
-  // the name of the character (a string)
-  resultThumbnail: {type: DataTypes.BLOB}
-  // the character's role (a string)
-  //role: Sequelize.STRING,
-  // the character's age (a string)
-  //age: Sequelize.INTEGER,
+  resultThumbnail: {type: DataTypes.BLOB('long')}
   
-  // and the character's force points (an int)
-  //forcePoints: Sequelize.INTEGER
 }, {
   // disable the modification of tablenames; By default, sequelize will automatically
   // transform all passed model names (first parameter of define) into plural.
@@ -42,8 +34,3 @@
 });
 return Items_1
 }
-//Syncs with DB
-//Items_1.sync();
-//console.log(Items_1 === sequelize.models.Items_1);
-// Makes the Items_1 Model available for other files (will also create a table)
-

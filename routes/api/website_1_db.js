@@ -8,8 +8,9 @@ saveToDatabase = function(thumbnailResult, detailsResult) {
     //prepare the data
     var dataToStore = 
     Items_1.Items_1.build({
-        resultDetails: detailsResult,
-        resultThumbnail: thumbnailResult
+        resultThumbnail: thumbnailResult,
+        resultDetails: detailsResult
+        
     });
     console.log(dataToStore)
     //insert data to the database
