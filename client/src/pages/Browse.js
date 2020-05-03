@@ -75,7 +75,7 @@ async searchWebsite_1() {
                 <Col size="md-12">
                 {/* Placeholder for when the user signs in - user model needs to be created first with sequelize */}
                 <div>
-                <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail" src="https://image.shutterstock.com/image-photo/hand-holding-sprout-growing-nature-260nw-600903620.jpg" class="rounded float-left" alt="Placeholder icon" />
+                <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail" src="https://cdn11.bigcommerce.com/s-tzlp6/images/stencil/360x360/logo_1415602615__88358.original.png" class="rounded float-left" alt="Greenheart Shop" />
                 <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail" src="https://image.shutterstock.com/image-vector/vector-logo-design-template-badge-260nw-493313134.jpg" class="rounded float-right" alt="Placeholder icon" />
                 <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail"src="https://image.shutterstock.com/image-vector/ecology-concept-green-city-on-260nw-701621245.jpg" class="rounded float-left" alt="Placeholder icon" />
                 <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail"src="https://image.shutterstock.com/image-photo/hand-holding-light-bulb-front-260nw-725473402.jpg" class="rounded float-right" alt="Placeholder icon" />
