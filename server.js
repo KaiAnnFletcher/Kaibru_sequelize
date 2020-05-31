@@ -3,6 +3,7 @@ require("dotenv").config();
 var express = require("express");
 var cors = require('cors');
 var bodyParser = require('body-parser');
+var passport = require("passport");
 var logger = require("morgan");
 //const mongoose = require("mongoose");
 var db = require("./models")
@@ -36,6 +37,11 @@ var syncOptions = { force: false };
 if (process.env.NODE_ENV === "test") {
     syncOptions.force = true;
 };
+//Passport middleware
+app.use(passport.initialize());
+
+//Passport config
+require("./config/passport")(passport);
 
 // Starting the server, syncing our models ------------------------------------/
 db.sequelize.sync(syncOptions).then(function() {

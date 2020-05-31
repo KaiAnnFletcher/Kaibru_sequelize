@@ -32,15 +32,21 @@
   "homepage": "https://github.com/KaiAnnFletcher/Kaibru#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "if-env": "^1.0.4",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^1.7.0",
-    "sequelize": "^4.44.4"
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^4.44.4",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -48,12 +54,12 @@
     "@babel/preset-env": "^7.9.5",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
-    "concurrently": "^4.1.0",
+    "concurrently": "^5.2.0",
     "cross-env": "^5.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.2",
-    "mocha": "^5.2.0",
+    "mocha": "^7.2.0",
     "nodemon": "^2.0.3",
     "prettier": "^1.13.7"
   }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Container, Row, Col } from "../components/Grid";
 
 class Home extends Component {
 
