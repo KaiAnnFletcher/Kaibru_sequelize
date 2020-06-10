@@ -5,6 +5,9 @@ import Footer from "../components/Footer";
 import { Container, Row, Col } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import SearchForm from "../components/SearchForm";
+import Bookmark from "../components/Bookmark";
+import LinkBtn from "../components/LinkBtn";
+import { Link } from "react-router-dom";
 import API from "../utils/API";
 //import ResultList from "../components/ResultList";
 //import SearchResultContainer from "../components/SearchResultContainer";
@@ -14,7 +17,9 @@ class Browse extends Component {
 
     state = {
     search: "",
-    data: [],    
+    input: "",
+    data: [],  
+    verified: false  
 };
 
 //In future will need to construct OR conditions when multiple websites come into the picture
@@ -48,11 +53,44 @@ async searchWebsite_1() {
     });
   };
 
-  // When the form is submitted, search the Giphy API for `this.state.search`
-  handleFormSubmit = event => {
-    event.preventDefault();
-    this.searchWebsite_1(this.state.search);
-  };
+  
+   handleFormSubmit = event => {
+    this.event.preventDefault();
+    
+       
+    API.scrapeBySearch(this.state.search) 
+    
+    let fun = data => {
+      this.setState({ data: data.data })
+      console.log(data.data)
+      console.log(fun)
+    }
+    
+      fun(event)
+      //.catch(err => { console.log(err) })
+
+}
+
+  //handle saving
+  handleSaveClick = id => {
+    API.bookmark({
+      id: id
+    })
+    .then(res => console.log("saved"))
+    .catch(err => { console.log(err) })
+  }
+
+  componentDidMount() {
+    API.checkToken()
+    .then(res => {
+    if (res.status === 200) {
+    this.setState({ verified: true })
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  });
+}
 
     render() {
     return (
@@ -113,6 +151,22 @@ async searchWebsite_1() {
                     ) : (<img className ="StyleThumbnail" alt="thumbnail_1" src="https://cdn11.bigcommerce.com/s-tzlp6/images/stencil/360x360/logo_1415602615__88358.original.png" ></img>)}
                     <p>{data.resultDetails}</p>
                     </Container>
+                    
+                    {this.state.verified ? (
+                      <Bookmark 
+                      id={data.id}
+                      onClick={this.handleSaveClick}
+                      />
+                    ) : (
+                    <Link to={"/login"}>
+                      <Bookmark
+                      onClick={() => {return}}
+                      />
+                    </Link>
+                    )}
+                    <Link to={"/browse"}>
+                      <LinkBtn />
+                    </Link>
                     </ ListItem>
                     ))}
                     </List>
@@ -124,7 +178,7 @@ async searchWebsite_1() {
                 <Footer />
 </Container>
 </div>
-)};
+)}
 }
 
 export default Browse;

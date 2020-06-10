@@ -65,7 +65,7 @@ next()
 router.get('/scrape', website_1Controller.findAll)
 
 //Start of code for the specific scrape
-router.get("/scrape/:id", function (req, res, next) {
+router.get("/search/:search", function (req, res, next) {
     axios.get("https://greenheartshop.org/search.php?search_query=" + req.params.search).then(function (response) {
         console.log("***** scraping specific page *****"); 
         var $ = cheerio.load(response.data);
@@ -85,6 +85,7 @@ router.get("/scrape/:id", function (req, res, next) {
             .attr("src")
             console.log(result.thumbnail)
 
+            var result = {};
             //details
             result.detail= $(this)
             .children("div.product-item-details")
@@ -93,11 +94,11 @@ router.get("/scrape/:id", function (req, res, next) {
 
 //Capture the scraped data and save to database
 console.log("Capturing Scrape data...")
-if(result.detail !== '') {
+if(result.detail !== '' && result.thumbnail !== {}) {
     var thumbnailResult = result.thumbnail;
     var detailsResult = result.detail;
-    var promise = Items_1
-    .saveToDatabase(thumbnailResult, detailsResult)
+    var promise = Items_1;
+    saveToDatabase(thumbnailResult, detailsResult)
     console.log("saveToDatabase");
     promises.push(promise);
 }
@@ -108,15 +109,16 @@ Promise.all(promises).then((data) => {
 });
 next()
 });
-//to be modified at a later date as above in mainscrape
-router.get('/scrape:id', (req, res, next) => {
-    console.log("Routing...")
-    website_1Controller.findById()
-     .then((search) => {
-     search ? res.status(200).send({ singleItems_1: search }) : res.status(200).send({ errMsg: "Search does not exist" 
-     }).catch(err => next(err))
-    });
-});
+router.get('/search', website_1Controller.findAll)
+
+// router.get('/scrape:id', (req, res, next) => {
+//     console.log("Routing...")
+//     website_1Controller.findById()
+//      .then((search) => {
+//      search ? res.status(200).send({ singleItems_1: search }) : res.status(200).send({ errMsg: "Search does not exist" 
+//      }).catch(err => next(err))
+//     });
+// });
 
 module.exports = router;
 

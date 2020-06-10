@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
+const withAuth = require("../../middleware");
+const Items_1 = require("../../models")
 
 //Load input validation
 const validateRegisterInput = require("../../validation/register")
@@ -105,6 +107,33 @@ bcrypt.compare(password, user.password).then(isMatch => {
     }
 });
 });
+});
+
+//User-related routes
+router.get('/checkToken', withAuth, function(req,res){
+    res.sendStatus(200)
+});
+
+router.post('/bookmark', withAuth, function(req, res){
+    User.findOneAndUpdate({ username: req.username}, {$push: {favourites: req.body.id}})
+        .then(dbUser => res.json(dbUser))
+        .catch(err => res.status(422).json(err));
+});
+
+router.get('/allBookmarks', withAuth, function(req,res) {
+    let promises = []
+    User.findOne({ username: req.username }, "favourites")
+    .then(favourites => {
+
+        favourites.favourites.forEach(id => {
+            const promise = Items_1
+            .findById(id)
+            promises.push(promise);
+        })
+        Promise.all(promises).then((data) => {
+            res.json(data)
+        })
+    })
 });
 
 module.exports = router;
