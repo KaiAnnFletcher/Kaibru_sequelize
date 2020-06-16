@@ -54,43 +54,67 @@ async searchWebsite_1() {
   };
 
   
-   handleFormSubmit = event => {
-    this.event.preventDefault();
-    
-       
-    API.scrapeBySearch(this.state.search) 
-    
-    let fun = data => {
-      this.setState({ data: data.data })
-      console.log(data.data)
-      console.log(fun)
-    }
-    
-      fun(event)
-      //.catch(err => { console.log(err) })
+  handleFormSubmit = event => {
+    event.preventDefault();
 
+    let fun = data => {
+
+        this.setState({ data: data.data })
+        console.log(data.data)
+    };
+    API.scrapeBySearch(this.state.search)
+        .then(fun(event))
+        .catch(err => { console.log(err) })
 }
+
+//   handleFormSubmit = event => {
+//   event.preventDefault();
+
+//   API.scrapeBySearch()
+//   .then( data =>{
+//     this.setState( {data: data.data} )
+//   })
+// }
+  //  handleFormSubmit =  event => {
+  //  event.preventDefault.bind(this);
+      
+  //    API.scrapeBySearch(this.state.search) 
+  //    .then(data => {
+  //     this.setState({ data: data.data }) 
+  //       console.log(data.data)
+  //      })   
+  // }
 
   //handle saving
   handleSaveClick = id => {
+    API.checkToken()
+         .then(res => {
+         if (res.status === 200) {
+         this.setState({ verified: true })
+         }
+       })
+       .catch(err => {
+        console.error(err);
+       });
+
     API.bookmark({
       id: id
     })
     .then(res => console.log("saved"))
     .catch(err => { console.log(err) })
   }
-
-  componentDidMount() {
-    API.checkToken()
-    .then(res => {
-    if (res.status === 200) {
-    this.setState({ verified: true })
-    }
-  })
-  .catch(err => {
-    console.error(err);
-  });
-}
+  
+//   componentDidMount() {
+//     API.checkToken()
+//     .then(res => {
+//     if (res.status === 200) {
+//     this.setState({ verified: true })
+//     }
+//   })
+//   .catch(err => {
+//   console.error(err);
+//   });
+// }
 
     render() {
     return (
@@ -132,11 +156,11 @@ async searchWebsite_1() {
                 <SearchForm
                   search={this.state.search}
                   handleFormSubmit={this.handleFormSubmit}
-                  handleInputChange={this.handleInputChange}
+                  handleInputChange={(this.handleInputChange)}
                 />
                 </Col>
                 </Row>
-
+ 
 
                 <Row>
                 <Col size="md-12">
