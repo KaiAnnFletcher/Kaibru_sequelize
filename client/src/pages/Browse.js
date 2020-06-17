@@ -9,6 +9,8 @@ import Bookmark from "../components/Bookmark";
 import LinkBtn from "../components/LinkBtn";
 import { Link } from "react-router-dom";
 import API from "../utils/API";
+//import { response } from "express";
+//import { response } from "express";
 //import ResultList from "../components/ResultList";
 //import SearchResultContainer from "../components/SearchResultContainer";
 
@@ -53,20 +55,34 @@ async searchWebsite_1() {
     });
   };
 
-  
   handleFormSubmit = event => {
-    event.preventDefault();
+     event.preventDefault();
 
-    let fun = data => {
+     API.scrapeBySearch(this.state.search)
+      .then(data => {
+        let details = [];
 
-        this.setState({ data: data.data })
-        console.log(data.data)
-    };
-    API.scrapeBySearch(this.state.search)
-        .then(fun(event))
-        .catch(err => { console.log(err) })
-}
+        for(var i in data.data) {
+          details.push({
+           resultThumbnail: i, value: data.data[i],
+           resultDeatils: [i], value: data.data[i]
+          })
+        }
+        this.setState({ data: details })
+      });
+    }
+//   handleFormSubmit = event => {
+//     event.preventDefault();
 
+//     let flip = data => {
+
+//         this.setState({ data: data.data })
+//         console.log(data.data)
+//     };
+//     API.scrapeBySearch(this.state.search)
+//         .then(flip)
+//         .catch(err => { console.log(err) })
+// }
 //   handleFormSubmit = event => {
 //   event.preventDefault();
 
