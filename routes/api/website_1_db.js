@@ -7,7 +7,7 @@ var Items_1 = require( "../../models");
 saveToDatabase = function(thumbnailResult, detailsResult) {
     //prepare the data
     var dataToStore = 
-    Items_1.Items_1.build({
+    Items_1.Items_1.findOrBuild({
         resultThumbnail: thumbnailResult,
         resultDetails: detailsResult
         
