@@ -20,7 +20,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 // import Jumbotron from "./components/Jumbotron";
 import Wrapper from "./components/Wrapper";
 // import logo from './logo.svg';
-// import './App.css';
+ import './App.css';
 
 //Check for token to keep user logged in
 if(localStorage.jwtToken) {
@@ -45,6 +45,7 @@ if(localStorage.jwtToken) {
 class App extends Component {
   render() {
   return (
+    <div id='App'>
     <Provider store={store}>
     <Router>
     <div>
@@ -62,6 +63,7 @@ class App extends Component {
     </div>
     </Router>
     </Provider>
+    </div>
   ) 
 }
 }

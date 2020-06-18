@@ -6,7 +6,7 @@ import { Container, Row, Col } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import SearchForm from "../components/SearchForm";
 import Bookmark from "../components/Bookmark";
-import LinkBtn from "../components/LinkBtn";
+//import LinkBtn from "../components/LinkBtn";
 import { Link } from "react-router-dom";
 import API from "../utils/API";
 //import { response } from "express";
@@ -204,9 +204,9 @@ async searchWebsite_1() {
                       />
                     </Link>
                     )}
-                    <Link to={"/browse"}>
+                    {/* <Link to={"/browse"}>
                       <LinkBtn />
-                    </Link>
+                    </Link> */}
                     </ ListItem>
                     ))}
                     </List>

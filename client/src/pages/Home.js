@@ -23,7 +23,7 @@ class Home extends Component {
                 <Row fluid>
                 <Col size="md-12">
                 {/* Placeholder for when the user signs in - user model needs to be created first with sequelize */}
-                <div>
+                <div className="container-fluid styleHomePage">
                 <h5 style={{textAlign: "center"}}>Kaibru is the place you can come to if you would like to find products or services that are sustainable and safe! 
                     Happy browsing and thank you for remembering our environment!
                 </h5>

@@ -5,7 +5,7 @@ import "./style.css";
 function Bookmark(props) {
     return (
         <button className="BookmarkBtn btn btn-warning" onClick={() =>props.onClick(props.id)}>
-            <span>Bookmark
+            <span>SAVE
                 <Link className="navbar-brand" to="Bookmark"></Link>              
                 
             </span>
