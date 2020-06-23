@@ -60,22 +60,22 @@ async searchWebsite_1() {
      event.preventDefault();
 
      API.scrapeBySearch(this.state.search)
-      .then(data  =>  {
+      .then(response  =>  {
         let details = [];
-
+        
         // for (var data in (data.data)) {
         //   if ((data.data).hasOwnProperty(data)) {
         //     details.push(data);
         //   }
-        for(var i = 0;  i < data.data.length; i++) {
-          details.push({
-           resultThumbnail: i, value: data.data[i],
+        for(var i = 0;  i < response.data.length; i++) {
+           details.push({
+           resultThumbnail: i, value: response.data[i],
            //resultDetails: i, value: data.data[i]
           })
         }
-        for(var j = 0; j < data.data.length; j++) {
+        for(var j = 0; j < response.data.length; j++) {
           details.push({
-          resultDetails: j, value: data.data[j]
+          resultDetails: j, value: response.data[j]
         })
       }
         this.setState({ data: details })

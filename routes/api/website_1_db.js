@@ -7,12 +7,34 @@ var Items_1 = require( "../../models");
 saveToDatabase = function(thumbnailResult, detailsResult) {
     //prepare the data
     //var dataToStore =
-    //extending model with method
-
-    Items_1.Items_1.findOrCreate({where:
+     Items_1.Items_1.findCreateFind({where:
         {resultThumbnail: thumbnailResult,
          resultDetails: detailsResult}    
-    });
+    })
+    // .then(function(obj) {
+    //     // update
+    //     if(obj)
+    //         return obj.update(thumbnailResult, detailsResult);
+    //     // insert
+    //     else {
+    //     return Items_1.Items_1.create();
+    //     }
+    // })
+
+//     function saveToDatabase(values, resultDetails) {
+//         return Items_1.Items_1
+//             .findAll({ where: resultDetails })
+//             .then(function(obj) {
+//                 // update
+//                 if(obj)
+//                     return obj.update(values);
+//                 // insert
+//                 return Items_1.Items_1.create(values);
+//             })
+//     }
+//    saveToDatabase()
+   
+
     // Items_1.Items_1.findOrCreate({where:
     //     {resultThumbnail: thumbnailResult, resultDetails: detailsResult, 
     //     upsert:true, new:true}

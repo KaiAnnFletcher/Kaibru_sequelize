@@ -24,7 +24,7 @@ class Logout extends Component {
         <Navbar />
         <Row>
         <Col size="lg-4 sm-12">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="login styleLoginWrap">
         <div className="login-container styleLoginSubWrap">
         <div className="landing-copy col s12 center-align">
@@ -43,7 +43,7 @@ class Logout extends Component {
         </div>
         </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
         </Col>
         </Row>
         <Footer />
