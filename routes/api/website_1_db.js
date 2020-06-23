@@ -6,20 +6,25 @@ var Items_1 = require( "../../models");
 
 saveToDatabase = function(thumbnailResult, detailsResult) {
     //prepare the data
-    var dataToStore = 
-    Items_1.Items_1.findOrBuild({
-        resultThumbnail: thumbnailResult,
-        resultDetails: detailsResult
-        
+    //var dataToStore =
+    //extending model with method
+
+    Items_1.Items_1.findOrCreate({where:
+        {resultThumbnail: thumbnailResult,
+         resultDetails: detailsResult}    
     });
-    console.log(dataToStore)
+    // Items_1.Items_1.findOrCreate({where:
+    //     {resultThumbnail: thumbnailResult, resultDetails: detailsResult, 
+    //     upsert:true, new:true}
+    // })
+    //console.log(dataToStore)
     //insert data to the database
-    dataToStore.save().
-        then(() => {
-            console.log("Data successfully saved");
-        }).catch(err => {
-            console.log("Error: ", err);
-        });
+    // dataToStore.save().
+    //     then(() => {
+    //         console.log("Data successfully saved");
+    //     }).catch(err => {
+    //         console.log("Error: ", err);
+    //     });
 }
 
 module.exports = saveToDatabase;

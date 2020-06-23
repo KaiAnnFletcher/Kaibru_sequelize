@@ -9,6 +9,7 @@ import Bookmark from "../components/Bookmark";
 //import LinkBtn from "../components/LinkBtn";
 import { Link } from "react-router-dom";
 import API from "../utils/API";
+import "./style.css"
 //import { response } from "express";
 //import { response } from "express";
 //import ResultList from "../components/ResultList";
@@ -59,18 +60,28 @@ async searchWebsite_1() {
      event.preventDefault();
 
      API.scrapeBySearch(this.state.search)
-      .then(data => {
+      .then(data  =>  {
         let details = [];
 
-        for(var i in data.data) {
+        // for (var data in (data.data)) {
+        //   if ((data.data).hasOwnProperty(data)) {
+        //     details.push(data);
+        //   }
+        for(var i = 0;  i < data.data.length; i++) {
           details.push({
            resultThumbnail: i, value: data.data[i],
-           resultDeatils: [i], value: data.data[i]
+           //resultDetails: i, value: data.data[i]
           })
         }
+        for(var j = 0; j < data.data.length; j++) {
+          details.push({
+          resultDetails: j, value: data.data[j]
+        })
+      }
         this.setState({ data: details })
       });
     }
+  
 //   handleFormSubmit = event => {
 //     event.preventDefault();
 
@@ -91,15 +102,15 @@ async searchWebsite_1() {
 //     this.setState( {data: data.data} )
 //   })
 // }
-  //  handleFormSubmit =  event => {
-  //  event.preventDefault.bind(this);
+//    handleFormSubmit =  event => {
+//    event.preventDefault.bind(this);
       
-  //    API.scrapeBySearch(this.state.search) 
-  //    .then(data => {
-  //     this.setState({ data: data.data }) 
-  //       console.log(data.data)
-  //      })   
-  // }
+//      API.scrapeBySearch(this.state.search) 
+//      .then(data => {
+//       this.setState({ data: data.data }) 
+//         console.log(data.data)
+//        })   
+//   }
 
   //handle saving
   handleSaveClick = id => {
@@ -152,11 +163,11 @@ async searchWebsite_1() {
                 <Row>
                 <Col size="md-12">
                 {/* Placeholder for when the user signs in - user model needs to be created first with sequelize */}
-                <div>
-                <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail" src="https://cdn11.bigcommerce.com/s-tzlp6/images/stencil/360x360/logo_1415602615__88358.original.png" class="rounded float-left" alt="Greenheart Shop" />
-                <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail" src="https://image.shutterstock.com/image-vector/vector-logo-design-template-badge-260nw-493313134.jpg" class="rounded float-right" alt="Placeholder icon" />
+                <div div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <img onClick={(e) => this.handleClick(e)} style={{backgroundColor: "lightBlue"}} className="StyleThumbnail" src="https://cdn11.bigcommerce.com/s-tzlp6/images/stencil/360x360/logo_1415602615__88358.original.png" class="rounded float-left" alt="Greenheart Shop" />
+                {/* <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail" src="https://image.shutterstock.com/image-vector/vector-logo-design-template-badge-260nw-493313134.jpg" class="rounded float-right" alt="Placeholder icon" />
                 <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail"src="https://image.shutterstock.com/image-vector/ecology-concept-green-city-on-260nw-701621245.jpg" class="rounded float-left" alt="Placeholder icon" />
-                <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail"src="https://image.shutterstock.com/image-photo/hand-holding-light-bulb-front-260nw-725473402.jpg" class="rounded float-right" alt="Placeholder icon" />
+                <img onClick={(e) => this.handleClick(e)} className="StyleThumbnail"src="https://image.shutterstock.com/image-photo/hand-holding-light-bulb-front-260nw-725473402.jpg" class="rounded float-right" alt="Placeholder icon" /> */}
                 </div>
                 <div>
                 <br/>
@@ -165,8 +176,10 @@ async searchWebsite_1() {
                 </div>
                 </Col>
                 </Row>
-
-
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
                 <Row>     
                 <Col size="md-12">
                 <SearchForm
@@ -211,7 +224,9 @@ async searchWebsite_1() {
                     ))}
                     </List>
                     ) : (
-                    <p>No Results to display at this time. Click an icon or search for an item to get started!</p>
+                    <div className = 'StyleBrowseMessage'>
+                    <h5 style={{textAlign: "center"}}>No Results to display at this time. Click an icon or search for an item to get started!</h5>
+                    </div>
                     )}
                 </Col>
                 </Row>

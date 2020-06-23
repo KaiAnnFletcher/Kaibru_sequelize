@@ -10,7 +10,7 @@ var db = require("../models");
 //display results for mainpage scrape
 module.exports = {
 
- findAll: async (req, res) => {
+ findAll: (req, res) => {
    db.Items_1
   .findAll({})
   //.sort({ date: -1 })
@@ -19,12 +19,18 @@ module.exports = {
  },
 
  findById: async (req, res) => {
-   db
+    db.Items_1
    .findOne({resultDetails: req.params.id})
    .then(dbModel => res.json(dbModel))
    .catch(err => res.status(422).json(err));
  },
 
+ findOrCreate: async (req, res) => {
+  db.Items_1
+  .findOrCreate(req.body, req.body, {upsert:true, new:true})
+  .then(dbModel => res.json(dbModel))
+  .catch(err => res.status(422).json(err));
+ }
 }
 // function(err, results) {
 //   if (err) { return next(err); } //Error in API usage.

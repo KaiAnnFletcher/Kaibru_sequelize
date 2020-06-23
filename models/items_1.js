@@ -2,7 +2,7 @@
 
  module.exports = function(sequelize, DataTypes) {
   var Items_1 = sequelize.define("Items_1", {
-  resultDetails: {type: DataTypes.STRING},
+  resultDetails: {type: DataTypes.STRING, unique: true, allowNull: false},
   resultThumbnail: {type: DataTypes.BLOB('long')}
   
 }, {
@@ -11,5 +11,7 @@
   // if you don't want that, set the following
   freezeTableName: true
 });
+
 return Items_1
-}
+};
+

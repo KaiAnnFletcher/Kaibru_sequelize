@@ -47,7 +47,7 @@ console.log(result.detail)
 
 //Capture the scraped data and save to database
 console.log("Capturing Scrape...")
-if(result.detail !== '' && result.thumbnail !== {}) {
+if(result.detail !== '') {
     var thumbnailResult = result.thumbnail;
     var detailsResult = result.detail;
     var promise = Items_1;
@@ -94,7 +94,7 @@ router.get("/search/:search", function (req, res, next) {
 
 //Capture the scraped data and save to database
 console.log("Capturing Scrape data...")
-if(result.detail !== '' && result.thumbnail !== {}) {
+if(result.detail !== '') {
     var thumbnailResult = result.thumbnail;
     var detailsResult = result.detail;
     var promise = Items_1;
