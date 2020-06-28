@@ -16,9 +16,9 @@ router.get("/scrape", function(req, res, next) {
 //instead of simple res.render, user router.get  
 console.log("scraping started...");
 //Grab the html body with axios    
-axios.get("https://greenheartshop.org").then(function(response) {
+axios.get("https://greenheartshop.org/").then(function(response) {
 //Load to cheerio and save to $ selector
-    console.log("Scraping all greenheartshop mainpage...");
+    console.log("Scraping all gimmethegoodstuff mainpage...");
     var $ = cheerio.load(response.data);
     var output = [];
     var promises = [];
@@ -30,33 +30,47 @@ $("article").each(function(i, element) {
 var result = {};
 //thumbnail
 result.thumbnail = $(this)
+//greenheartshop
 .children("figure.product-item-thumbnail")
 .children("a")
 .children("div.replaced-image.ratio-1-1")
 .children("img")
 .attr("src")
+
 console.log(result.thumbnail)
 
 var result = {}
 //details
 result.detail= $(this)
+//greenheartshop
 .children("div.product-item-details")
 .text()
-result.detail = result.detail.trim();
+
 console.log(result.detail)
+
+var result = {}
+//link
+result.link = $(this)
+//greenheartshop
+.children("figure.product-item-thumbnail")
+.children("a")
+.attr("href")
+
+console.log(result.link)
 
 //Capture the scraped data and save to database
 console.log("Capturing Scrape...")
-if(result.detail !== '') {
+if(result.thumbnail !== '' || result.link !== '') {
     var thumbnailResult = result.thumbnail;
     var detailsResult = result.detail;
+    var linkResult = result.link.match(/\d{4,6}/g);
     var promise = Items_1;
-    saveToDatabase(thumbnailResult, detailsResult)
+    saveToDatabase(thumbnailResult, detailsResult, linkResult)
     console.log("saveToDatabase");
     promises.push(promise);
 }
 Promise.all(promises).then((data) => {
-    res.json(data);
+    res.json(data)
 });
 });
 });
@@ -78,27 +92,42 @@ router.get("/search/:search", function (req, res, next) {
 
             //thumbnail
             result.thumbnail = $(this)
+            //greenheartshop
             .children("figure.product-item-thumbnail")
             .children("a")
             .children("div.replaced-image.ratio-1-1")
             .children("img")
             .attr("src")
+
             console.log(result.thumbnail)
 
             var result = {};
             //details
             result.detail= $(this)
+            //greenheartshop
             .children("div.product-item-details")
-            .text();
+            .text()
+
             console.log(result.detail)
+
+            var result = {}
+            //link
+            result.link = $(this)
+            //greenheartshop
+            .children("figure.product-item-thumbnail")
+            .children("a")
+            .attr("href")
+            
+            console.log(result.link)
 
 //Capture the scraped data and save to database
 console.log("Capturing Scrape data...")
-if(result.detail !== '') {
+if(result.detail !== '' && result.link !== '') {
     var thumbnailResult = result.thumbnail;
     var detailsResult = result.detail;
+    var linkResult = result.link.match(/\d{4,6}/g);
     var promise = Items_1;
-    saveToDatabase(thumbnailResult, detailsResult)
+    saveToDatabase(thumbnailResult, detailsResult, linkResult)
     console.log("saveToDatabase");
     promises.push(promise);
 }

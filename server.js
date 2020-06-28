@@ -12,18 +12,25 @@ var app = express();
 var PORT = process.env.PORT || 3001;
 var path = require('path');
 //Define middleware here
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
-//Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static("client/build"));
-}
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cors());
 app.use(logger("dev"));
 //Add routes, both API and view
 app.use(routes);
 console.log("routes:",routes);
+
+//Serve up static assets (usually on heroku)
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static("client/build"));
+}
+// app.use(cors());
+// app.use(logger("dev"));
+// //Add routes, both API and view
+// app.use(routes);
+// console.log("routes:",routes);
 //replaced with below:
 //app.use(app.router);
 //routes.initialize(app);

@@ -56,44 +56,51 @@ async searchWebsite_1() {
     });
   };
 
-  handleFormSubmit = event => {
-     event.preventDefault();
 
-     API.scrapeBySearch(this.state.search)
-      .then(response  =>  {
-        let details = [];
+  // handleFormSubmit = event => {
+  //    event.preventDefault();
+
+  //    API.scrapeBySearch(this.state.search)
+  //     .then(response  =>  {
+  //       let details = Array.from(response);
         
-        // for (var data in (data.data)) {
-        //   if ((data.data).hasOwnProperty(data)) {
-        //     details.push(data);
-        //   }
-        for(var i = 0;  i < response.data.length; i++) {
-           details.push({
-           resultThumbnail: i, value: response.data[i],
-           //resultDetails: i, value: data.data[i]
-          })
-        }
-        for(var j = 0; j < response.data.length; j++) {
-          details.push({
-          resultDetails: j, value: response.data[j]
-        })
-      }
-        this.setState({ data: details })
-      });
-    }
+  //       // for (var data in (data.data)) {
+  //       //   if ((data.data).hasOwnProperty(data)) {
+  //       //     details.push(data);
+  //       //   }
+  //       for(var i = 0;  i < response.data.length; i++) {
+  //          details.push({
+  //          resultThumbnail: i, value: response.data[i],
+  //          //resultDetails: i, value: data.data[i]
+  //         })
+  //       }
+  //       for(var j = 0; j < response.data.length; j++) {
+  //         details.push({
+  //         resultDetails: j, value: response.data[j]
+  //       })
+  //     }
+  //       this.setState({ data: details })
+  //     });
+  //   }
   
-//   handleFormSubmit = event => {
-//     event.preventDefault();
+  handleFormSubmit = (event) => {
+    event.preventDefault();
+    
+    //  fun = (data) => {
+    //   this.setState( {data: data.data} )
+    //   console.log(data)
+    //   console.log( {data: data.data} )
+    // };
+    API.scrapeBySearch(this.state.search)
+          .then(async (data)  => {
+          console.log(data)
+          this.setState({ data: data.data })
+        })
+        
+        //.catch(err => { console.log(err) })
+    }       
+    
 
-//     let flip = data => {
-
-//         this.setState({ data: data.data })
-//         console.log(data.data)
-//     };
-//     API.scrapeBySearch(this.state.search)
-//         .then(flip)
-//         .catch(err => { console.log(err) })
-// }
 //   handleFormSubmit = event => {
 //   event.preventDefault();
 
@@ -102,6 +109,9 @@ async searchWebsite_1() {
 //     this.setState( {data: data.data} )
 //   })
 // }
+
+
+
 //    handleFormSubmit =  event => {
 //    event.preventDefault.bind(this);
       
@@ -185,7 +195,7 @@ async searchWebsite_1() {
                 <SearchForm
                   search={this.state.search}
                   handleFormSubmit={this.handleFormSubmit}
-                  handleInputChange={(this.handleInputChange)}
+                  handleInputChange={this.handleInputChange}
                 />
                 </Col>
                 </Row>
@@ -194,15 +204,16 @@ async searchWebsite_1() {
                 <Row>
                 <Col size="md-12">
 
-                {this.state.data.length ? (
+                {this.state && this.state.data.length ? (
                     <List>
                     {this.state.data.map(data => (
                     <ListItem key={data.data}>
                     <Container>
-                    {this.state.data.resultThumbnail ? (
-                    <img className ="StyleThumbnail" alt="thumbnail" src={data.resultThumbnail} ></img>
+                    {this.state.data.resultLink ? (
+                    <img className ="StyleThumbnail" alt="thumbnail" src={data.resultLink} ></img>
                     ) : (<img className ="StyleThumbnail" alt="thumbnail_1" src="https://cdn11.bigcommerce.com/s-tzlp6/images/stencil/360x360/logo_1415602615__88358.original.png" ></img>)}
                     <p>{data.resultDetails}</p>
+                    <p>{data.resultLink}</p>
                     </Container>
                     
                     {this.state.verified ? (

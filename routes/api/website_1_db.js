@@ -4,22 +4,18 @@ var Items_1 = require( "../../models");
 
 //After scraping the main page, the following function is to save to the database
 
-saveToDatabase = function(thumbnailResult, detailsResult) {
+saveToDatabase =  function(thumbnailResult, detailsResult, linkResult) {
     //prepare the data
-    //var dataToStore =
-     Items_1.Items_1.findCreateFind({where:
-        {resultThumbnail: thumbnailResult,
-         resultDetails: detailsResult}    
+    
+     Items_1.Items_1.findCreateFind({
+        attributes: ["thumbnail", "results", "link"],
+        where:
+        {
+         resultThumbnail: thumbnailResult,
+         resultDetails: detailsResult,
+         resultLink: linkResult
+        }    
     })
-    // .then(function(obj) {
-    //     // update
-    //     if(obj)
-    //         return obj.update(thumbnailResult, detailsResult);
-    //     // insert
-    //     else {
-    //     return Items_1.Items_1.create();
-    //     }
-    // })
 
 //     function saveToDatabase(values, resultDetails) {
 //         return Items_1.Items_1
@@ -47,6 +43,7 @@ saveToDatabase = function(thumbnailResult, detailsResult) {
     //     }).catch(err => {
     //         console.log("Error: ", err);
     //     });
+
 }
 
 module.exports = saveToDatabase;
